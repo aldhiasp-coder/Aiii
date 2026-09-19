@@ -64,12 +64,12 @@ def _error_to_http(exc: MarketDataError) -> HTTPException:
     return HTTPException(status_code=500, detail=str(exc))
 
 
-@app.get("/api/health")
+@app.get("/health")
 def health() -> dict:
     return {"status": "ok", "provider": _binance.name}
 
 
-@app.get("/api/snapshot/{symbol}")
+@app.get("/snapshot/{symbol}")
 def snapshot(symbol: str) -> MarketSnapshot:
     """Harga terkini (spek poin 4 -- Price)."""
     try:
@@ -78,7 +78,7 @@ def snapshot(symbol: str) -> MarketSnapshot:
         raise _error_to_http(exc) from exc
 
 
-@app.get("/api/ohlcv/{symbol}")
+@app.get("/ohlcv/{symbol}")
 def ohlcv(
     symbol: str,
     timeframe: str = Query("1H", description="1m,3m,5m,15m,30m,1H,4H,1D,1W"),
@@ -90,7 +90,7 @@ def ohlcv(
         raise _error_to_http(exc) from exc
 
 
-@app.get("/api/indicators/{symbol}")
+@app.get("/indicators/{symbol}")
 def indicators(
     symbol: str,
     timeframe: str = Query("1H", description="1m,3m,5m,15m,30m,1H,4H,1D,1W"),
