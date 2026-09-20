@@ -65,11 +65,13 @@ def _error_to_http(exc: MarketDataError) -> HTTPException:
 
 
 @app.get("/health")
+@app.get("/api/health")
 def health() -> dict:
     return {"status": "ok", "provider": _binance.name}
 
 
 @app.get("/snapshot/{symbol}")
+@app.get("/api/snapshot/{symbol}")
 def snapshot(symbol: str) -> MarketSnapshot:
     """Harga terkini (spek poin 4 -- Price)."""
     try:
@@ -79,6 +81,7 @@ def snapshot(symbol: str) -> MarketSnapshot:
 
 
 @app.get("/ohlcv/{symbol}")
+@app.get("/api/ohlcv/{symbol}")
 def ohlcv(
     symbol: str,
     timeframe: str = Query("1H", description="1m,3m,5m,15m,30m,1H,4H,1D,1W"),
@@ -91,6 +94,7 @@ def ohlcv(
 
 
 @app.get("/indicators/{symbol}")
+@app.get("/api/indicators/{symbol}")
 def indicators(
     symbol: str,
     timeframe: str = Query("1H", description="1m,3m,5m,15m,30m,1H,4H,1D,1W"),
